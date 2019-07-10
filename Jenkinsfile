@@ -32,7 +32,26 @@ pipeline {
      			reportName: "Checkstyle Report"
 		    ])
      		}
-	  }	
+	  }
+
+	  stage("Package") {
+     		steps {
+          	    sh "./gradlew build"
+     		}
+	  }
+
+	   stage("Docker build") {
+     		steps {
+          	    sh "docker build -t fluidout/calculator ."
+     		}
+	   }	
+
+	   stage("Docker push") {
+     		steps {
+          	    sh "docker push fluidout/calculator"
+     		}
+	   }		
+
 
      }
 }
